@@ -1,32 +1,29 @@
 import jwt from "jsonwebtoken";
 
 const userAuth = async (req, res, next) => {
-  const { token } = req.headers;
-
-  console.log("Request Headers:", req.headers);
-
-  if (!token) {
-    return res.json({
-      success: false,
-      message: "Not Authorised. Log In Again",
-    });
-  }
-
   try {
-    const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
+    const token = req.headers.token;
 
-    if (tokenDecode) {
-      req.userId = tokenDecode.id;
-    } else {
+    if (!token) {
       return res.json({
         success: false,
-        message: "Not Authorised, Log In Again",
+        message: "Not Authorised. Log In Again",
       });
     }
 
+    const tokenDecode = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!tokenDecode) {
+      return res.json({
+        success: false,
+        message: "Invalid token",
+      });
+    }
+
+    req.userId = tokenDecode.id; // ✅ Store on `req.userId`
     next();
   } catch (error) {
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 
