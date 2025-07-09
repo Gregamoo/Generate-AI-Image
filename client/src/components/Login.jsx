@@ -11,8 +11,6 @@ const Login = () => {
   const { setShowLogin, backendUrl, setToken, setUser } =
     useContext(AppContext);
 
-  console.log(backendUrl);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +19,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      console.log(state, " = State ");
       if (state === "Login") {
-        console.log("This is login");
         const { data } = await axios.post(backendUrl + "/api/user/login", {
           email,
           password,
@@ -38,7 +34,6 @@ const Login = () => {
           toast.error(data.message);
         }
       } else {
-        console.log(name, email, password, "register");
         const { data } = await axios.post(backendUrl + "/api/user/register", {
           name,
           email,

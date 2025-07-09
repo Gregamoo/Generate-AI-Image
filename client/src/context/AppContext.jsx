@@ -15,12 +15,13 @@ const AppContextProvider = (props) => {
 
   const loadCreditsData = async () => {
     try {
+      console.log("Load credits data");
       const { data } = await axios.get(backendUrl + "/api/user/credits", {
         headers: { token },
       });
 
       if (data.success) {
-        setCredit(data.credits);
+        setCredit(data.credit);
         setUser(data.user);
       }
     } catch (error) {
