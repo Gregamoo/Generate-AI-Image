@@ -23,7 +23,7 @@ const AppContextProvider = (props) => {
       });
 
       if (data.success) {
-        setCredit(data.credit);
+        setCredit(data.credits);
         setUser(data.user);
       }
     } catch (error) {
